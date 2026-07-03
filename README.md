@@ -6,9 +6,9 @@ A simple REST API built with **Node.js** and **Express.js** that demonstrates us
 
 ## 📚 Course Information
 
-**Course:** Pemrograman Web II
-**Class Code:** IF401
-**Lecturer:** Ratih Titi Komalasari, S.T., M.M., M.MSI
+- **Course:** Pemrograman Web II
+- **Class Code:** IF401
+- **Lecturer:** Ratih Titi Komalasari, S.T., M.M., M.MSI
 
 ---
 
