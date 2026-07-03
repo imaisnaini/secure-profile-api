@@ -1,5 +1,4 @@
-const express = require('express');
-const jwt = require('jswebtoken');
+const jwt = require('jsonwebtoken');
 
 function generateToken(user) {
     return jwt.sign(

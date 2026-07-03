@@ -1,6 +1,6 @@
-const ( body ) = require('express-validator');
+const { body } = require('express-validator');
 
-const reqisterValidator = [
+const registerValidator = [
     body('name')
         .trim()
         .notEmpty()
@@ -24,3 +24,17 @@ const reqisterValidator = [
         .matches(/[0-9]/)
         .withMessage('Password harus memiliki angka.')
 ];
+
+const loginValidator = [
+    body('email')
+        .trim()
+        .isEmail()
+        .withMessage('Format email tidak valid.')
+        .normalizeEmail(),
+    body('password')
+        .isString()
+        .notEmpty()
+        .withMessage('Password wajib diisi.')
+];
+
+module.exports = { registerValidator, loginValidator };
