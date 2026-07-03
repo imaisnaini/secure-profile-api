@@ -21,7 +21,7 @@ REST API sederhana yang dikembangkan menggunakan Node.js dan Express sebagai tug
 ## Author
 
 **Nama:** Fatimah Isnaini Shabrina  
-**NIM:** 250401020073
-**Program Studi:** Informatika PJJ S1
-**Universitas:** Universitas Siber Asia (UNSIA)
-**Mata Kuliah:** Pemrograman Web II
+**NIM:** 250401020073  
+**Program Studi:** Informatika PJJ S1  
+**Universitas:** Universitas Siber Asia (UNSIA)  
+**Mata Kuliah:** Pemrograman Web II  
