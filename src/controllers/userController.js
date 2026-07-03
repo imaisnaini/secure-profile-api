@@ -1,7 +1,14 @@
 const users = require('../data/users');
 
 function getMe(req, res) {
-    return res.status(200).json({ success: true, data: req.user });
+    const data = users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt
+    }));
+
+    return res.status(200).json({ success: true, data });
 }
 
 function getAllUsers(req, res) {
@@ -15,4 +22,14 @@ function getAllUsers(req, res) {
     return res.status(200).json({ success: true, data });
 }
 
-module.exports = { getMe, getAllUsers };
+function getCount(req, res) {
+    return res.status(200).json({
+        success: true,
+        message: 'Data jumlah user berhasil didapat.',
+        data: {
+            usersCount: users.length,
+        }
+    });
+}
+
+module.exports = { getMe, getAllUsers, getCount };
