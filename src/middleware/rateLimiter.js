@@ -5,9 +5,9 @@ const authLimiter = rateLimit({
     max: 10,
     standardHeaders: true,
     legacyHeaders: false,
-    messagge: {
+    message: {
         success: false,
-        messagge: 'Terlalu banyak percobaan autentikasi. Coba kembali 15 menit lagi.'
+        message: 'Terlalu banyak percobaan autentikasi. Coba kembali 15 menit lagi.'
     },
 });
 

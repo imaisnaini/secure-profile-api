@@ -9,5 +9,5 @@ if (!process.env.JWT_SECRET) {
 }
 
 app.listen(PORT, () => {
-    console.log('Server berjalan pada http://localhost:${PORT}');
+    console.log(`Server berjalan pada http://localhost:${PORT}`);
 });

@@ -72,7 +72,7 @@ async function login(req, res, next) {
         const user = users.find((item) => item.email === email);
 
         const passwordMatches = user
-            ? await bcrypt.compare(password, user.password)
+            ? await bcrypt.compare(password, user.passwordHash)
             : false;
         
         if (!passwordMatches) {
