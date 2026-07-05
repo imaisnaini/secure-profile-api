@@ -20,7 +20,12 @@ function validationErrorResponse(req, res) {
 }
 
 function publicUser(user) {
-    return { id: user.id, name: user.name, email: user.email };
+    return { 
+        id: user.id, 
+        name: user.name, 
+        email: user.email,
+        role: user.role 
+    };
 }
 
 async function register(req, res, next) {
@@ -46,6 +51,7 @@ async function register(req, res, next) {
             name,
             email,
             passwordHash,
+            role: 'user',
             createdAt: new Date().toISOString()
         };
 

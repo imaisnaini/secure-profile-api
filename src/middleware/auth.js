@@ -36,13 +36,14 @@ function protect(req, res, next) {
         req.user = {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            role: user.role
         };
 
         return next();
     } catch (error) {
         const message = 
-            error.name === 'Tokenxpiredrror'
+            error.name === 'TokenExpiredrror'
                 ? 'Token sudah kadaluwarsa. Silahkan login kembali.'
                 : 'Token tidak valid atau sudah dimodifikasi.';
             

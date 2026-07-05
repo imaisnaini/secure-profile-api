@@ -4,14 +4,7 @@ const bcrypt = require('bcryptjs');
 
 // to get current user data
 function getMe(req, res) {
-    const data = users.map((user) => ({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt
-    }));
-
-    return res.status(200).json({ success: true, data });
+    return res.status(200).json({ success: true, data: req.user });
 }
 
 
@@ -21,6 +14,7 @@ function getAllUsers(req, res) {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
         createdAt: user.createdAt
     }));
 
@@ -75,4 +69,43 @@ async function changePassword(req, res, next) {
     }
 }
 
-module.exports = { getMe, getAllUsers, getCount, changePassword };
+// to delete user by admin
+function deleteUser(req, res){
+    const { id } = req.params;
+
+    const userIndex = users.findIndex((user) => user.id === id);
+
+    if (userIndex === -1) {
+        return res.status(401).json({
+            success: false,
+            message: "User tidak ditemukan"
+        })
+    }
+
+    if (users[userIndex].id === req.user.id) {
+        return res.status(400).json({
+            success: false,
+            message: "Admin tidak dapat menghapus akunnya sendiri"
+        })
+    }
+
+    const deletedUser = users.splice(userIndex, 1)[0];
+
+    return res.status(200).json({
+        success: true,
+        message: "User berhasil dihapus",
+        data: {
+            id: deletedUser.id,
+            name: deletedUser.name,
+            email: deletedUser.email
+        }
+    })
+}
+
+module.exports = { 
+    getMe, 
+    getAllUsers, 
+    getCount, 
+    changePassword, 
+    deleteUser 
+};
