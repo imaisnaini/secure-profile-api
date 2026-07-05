@@ -6,11 +6,8 @@ const userRoutes = require('./routes/userRoutes');
 const { authLimiter } = require('./middleware/rateLimiter');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandlers');
-const connectDB = require('./config/db');
 
 const app = express();
-
-connectDB();
 
 app.use(helmet());
 app.use(
