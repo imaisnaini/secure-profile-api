@@ -1,4 +1,4 @@
-const users = require('../data/users');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 
@@ -9,7 +9,9 @@ function getMe(req, res) {
 
 
 // to get list of all users
-function getAllUsers(req, res) {
+async function getAllUsers(req, res) {
+    const users = await User.find();
+
     const data = users.map((user) => ({
         id: user.id,
         name: user.name,
@@ -23,12 +25,14 @@ function getAllUsers(req, res) {
 
 
 // to count list of users
-function getCount(req, res) {
+async function getCount(req, res) {
+    const count = await User.countDocuments();
+
     return res.status(200).json({
         success: true,
         message: 'Data jumlah user berhasil didapat.',
         data: {
-            usersCount: users.length,
+            usersCount: count,
         }
     });
 }
@@ -37,7 +41,7 @@ function getCount(req, res) {
 async function changePassword(req, res, next) {
     try {
         const { oldPassword, newPassword } = req.body;
-        const user = users.find((item) => item.id === req.user.id);
+        const user = await User.findById(req.user.id);
 
         if(!user) {
             return res.status(404).json({
@@ -59,6 +63,7 @@ async function changePassword(req, res, next) {
         }
 
         user.passwordHash = await bcrypt.hash(newPassword, 10);
+        await user.save();
 
         return res.status(200).json({
             success: true,
@@ -70,34 +75,34 @@ async function changePassword(req, res, next) {
 }
 
 // to delete user by admin
-function deleteUser(req, res){
+async function deleteUser(req, res){
     const { id } = req.params;
 
-    const userIndex = users.findIndex((user) => user.id === id);
+    const user = await User.findById(req.params.id);
 
-    if (userIndex === -1) {
+    if (!user) {
         return res.status(401).json({
             success: false,
             message: "User tidak ditemukan"
         })
     }
 
-    if (users[userIndex].id === req.user.id) {
+    if (userid === req.user.id) {
         return res.status(400).json({
             success: false,
             message: "Admin tidak dapat menghapus akunnya sendiri"
         })
     }
 
-    const deletedUser = users.splice(userIndex, 1)[0];
+    await user.deleteOne();
 
     return res.status(200).json({
         success: true,
         message: "User berhasil dihapus",
         data: {
-            id: deletedUser.id,
-            name: deletedUser.name,
-            email: deletedUser.email
+            id: user.id,
+            name: user.name,
+            email: user.email
         }
     })
 }

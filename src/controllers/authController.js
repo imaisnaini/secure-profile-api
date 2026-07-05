@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { randomUUID } = require('crypto');
 const { validationResult } = require('express-validator');
-const users = require('../data/users');
+const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
 function validationErrorResponse(req, res) {
@@ -37,7 +37,7 @@ async function register(req, res, next) {
         const email = req.body.email.toLowerCase();
         const password = req.body.password;
 
-        const existingUser = users.find((user) => user.email === email);
+        const existingUser = await User.findOne({ email });
         if (existingUser){
             return res.status(409).json({
                 success: false,
@@ -46,16 +46,12 @@ async function register(req, res, next) {
         }
 
         const passwordHash = await bcrypt.hash(password, 10);
-        const newUser = {
-            id: randomUUID(),
+        const newUser = await User.create({
             name,
             email,
             passwordHash,
-            role: 'user',
-            createdAt: new Date().toISOString()
-        };
-
-        users.push(newUser);
+            role: 'user'
+        });
 
         return res.status(201).json({
             success: true,
@@ -75,7 +71,7 @@ async function login(req, res, next) {
 
         const email = req.body.email.toLowerCase();
         const password = req.body.password;
-        const user = users.find((item) => item.email === email);
+        const user = await User.findOne({ email });
 
         const passwordMatches = user
             ? await bcrypt.compare(password, user.passwordHash)
