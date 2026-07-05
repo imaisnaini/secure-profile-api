@@ -1,6 +1,6 @@
 # Secure Profile API
 
-A simple REST API built with **Node.js** and **Express.js** that demonstrates user authentication using JSON Web Token (JWT), password hashing with bcryptjs, input validation, and security best practices.
+A simple REST API built with **Node.js**, **Express.js**, and **MongoDB** that demonstrates user authentication using JSON Web Token (JWT), password hashing with bcryptjs, input validation, and security best practices.
 
 ---
 
@@ -15,15 +15,15 @@ A simple REST API built with **Node.js** and **Express.js** that demonstrates us
 ## 👨‍🎓 Student Information
 
 - **Name:** Fatimah Isnaini Shabrina
-- **Student ID (NIM):** *250401020073*
-- **Program Studi:** Informatika PJJ S1
+- **Student ID (NIM):** 250401020073
+- **Study Program:** Informatika PJJ S1
 - **University:** Universitas Siber Asia (UNSIA)
 
 ---
 
 ## 📖 About the Project
 
-Secure Profile API is a simple backend application developed as an assignment for the **Pemrograman Web 2** course. The project implements a secure REST API that allows users to register, log in, and access protected resources using JWT authentication.
+Secure Profile API is a backend application developed as an assignment for the **Pemrograman Web II** course. The project provides a secure REST API for user management using JWT authentication and MongoDB as the data store while maintaining a consistent API response contract.
 
 ### Features
 
@@ -33,6 +33,10 @@ Secure Profile API is a simple backend application developed as an assignment fo
 - Password Hashing (bcryptjs)
 - Input Validation (express-validator)
 - Protected Routes
+- Role-based Authorization (Admin)
+- Change Password
+- User Count
+- Delete User (Admin Only)
 - Global Error Handling
 - Rate Limiting
 - Security Headers (Helmet)
@@ -43,6 +47,8 @@ Secure Profile API is a simple backend application developed as an assignment fo
 
 - Node.js
 - Express.js
+- MongoDB
+- Mongoose
 - bcryptjs
 - jsonwebtoken
 - express-validator
@@ -74,7 +80,30 @@ Create a `.env` file in the project root:
 PORT=3000
 JWT_SECRET=your_secret_key
 JWT_EXPIRES_IN=1h
+MONGODB_URI=mongodb://127.0.0.1:27017/secure-profile-api
 ```
+
+---
+
+## 🌱 Seed Default Admin (Run Once)
+
+Before running the application for the first time, create the default administrator account:
+
+```bash
+node src/scripts/seedAdmin.js
+```
+
+The script only creates the admin account if it does not already exist.
+
+### Default Administrator Account
+
+| Field | Value |
+|-------|-------|
+| Email | `admin@unsia.ac.id` |
+| Password | `AdmPwd123` |
+| Role | `admin` |
+
+> **Note:** The password is **not stored as plain text** in the source code. The application stores only its bcrypt hash.
 
 ---
 
@@ -104,15 +133,20 @@ http://localhost:3000
 
 | Method | Endpoint | Description | Authentication |
 |---------|----------|-------------|----------------|
+| GET | `/api/health` | Check API health status | ❌ |
 | POST | `/api/auth/register` | Register a new user | ❌ |
-| POST | `/api/auth/login` | Login and receive JWT token | ❌ |
-| GET | `/api/users/me` | Get current user profile | ✅ Bearer Token |
+| POST | `/api/auth/login` | Login and receive JWT | ❌ |
+| GET | `/api/users/me` | Get current user profile | ✅ |
+| GET | `/api/users` | Get all users | ✅ |
+| GET | `/api/users/count` | Get total registered users | ✅ |
+| POST | `/api/users/change-password` | Change user password | ✅ |
+| DELETE | `/api/users/:id` | Delete user (Admin only) | ✅ Admin |
 
 ---
 
 ## 🔐 Authentication
 
-Protected endpoints require a Bearer Token.
+Protected endpoints require a valid JWT Bearer Token.
 
 Example request header:
 
@@ -124,4 +158,4 @@ Authorization: Bearer <your_jwt_token>
 
 ## 📄 License
 
-This project is created for educational purposes as part of the **Pemrograman Web 2** course.
+This project was created for educational purposes as part of the **Pemrograman Web II** course at **Universitas Siber Asia (UNSIA)**.
