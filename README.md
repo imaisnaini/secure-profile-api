@@ -156,6 +156,50 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
+## 🧪 Running Automated Tests
+
+The project includes automated tests using **Jest** and **Supertest**.
+
+### Prerequisites
+
+Before running the tests:
+
+1. Make sure MongoDB is running.
+2. Configure the test database in `.env` (or `.env.test` if used).
+3. Install project dependencies:
+
+```bash
+npm install
+```
+
+### Run All Tests
+
+```bash
+npm test
+```
+
+### Test Coverage
+
+The automated tests cover the following endpoints:
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/auth/register` | Register a new user |
+| `POST /api/auth/login` | Authenticate user and receive JWT |
+| `GET /api/users/me` | Access protected route using Bearer Token |
+
+A successful test run will display output similar to:
+
+```text
+PASS tests/auth.test.js
+PASS tests/user.test.js
+
+Test Suites: 2 passed
+Tests: 3 passed
+```
+
+---
+
 ## 📄 License
 
 This project was created for educational purposes as part of the **Pemrograman Web II** course at **Universitas Siber Asia (UNSIA)**.
